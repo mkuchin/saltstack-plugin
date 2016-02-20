@@ -184,7 +184,8 @@ public class SaltAPIBuilder extends Builder {
     @Override
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
         // This is where you 'build' the project.
-
+        //HtmlLogger logger = new HtmlLogger(listener);
+        //logger.print("<pre><span style='color:red'>redddd</span><b>bold</b></pre>");
         // If not not configured, grab the default
         int myJobPollTime = 10;
         if (jobPollTime == null) {
@@ -316,7 +317,12 @@ public class SaltAPIBuilder extends Builder {
                 httpResponse = Utils.getJSON(myservername + "/jobs/" + jid, null, token);
                 try {
                     returnArray = httpResponse.getJSONArray("return");
-                    numMinionsDone = returnArray.getJSONObject(0).names().size();
+                   //listener.getLogger().println(httpResponse);
+                    JSONObject returnObject = returnArray.getJSONObject(0);
+                    if(!returnObject.isEmpty())
+                        numMinionsDone =  returnObject.getJSONObject("data").names().size();
+                    listener.getLogger().println(numMinionsDone + "/" + numMinions + " finished");
+                    //listener.getLogger().println(returnArray.toString(2));
                 } catch (Exception e) {
                     listener.getLogger()
                             .println("Problem: " + myfunction + " " + myarguments + " for " + mytarget
@@ -367,7 +373,10 @@ public class SaltAPIBuilder extends Builder {
 	    Object outputObject = returnArray.toArray();
 	    Yaml yaml = new Yaml();
 	    listener.getLogger().println(yaml.dump(outputObject));
-	} else {
+	} else if (myOutputFormat.equals("html")) {
+        new HtmlDumper(listener).dump(returnArray);
+        listener.getLogger().println(returnArray.toString(2));
+    } else {
 	    listener.getLogger().println("Error: Unknown output Format: x" + myOutputFormat + "x");
 	    return false;
 	}
