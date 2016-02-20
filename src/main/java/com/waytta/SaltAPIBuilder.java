@@ -356,7 +356,7 @@ public class SaltAPIBuilder extends Builder {
 
 	boolean validFunctionExecution = Utils.validateFunctionCall(returnArray);
 
-	if (!validFunctionExecution) {
+	if (!validFunctionExecution && !myOutputFormat.equals("html")) {
 	    listener.getLogger()
 		.println("ERROR occurred !\nERROR: One or more minion did not return code 0 for "
 			+ myfunction + " " + myarguments + " for " + mytarget + ":\n"
