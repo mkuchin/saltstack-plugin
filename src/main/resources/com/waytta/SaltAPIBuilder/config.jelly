@@ -55,6 +55,10 @@
     </select>
   </f:entry>
 
+ <f:entry title="Filter results" field="changes" description="Show only changes">
+       <f:checkbox/>
+ </f:entry>
+
   <f:entry title="Function" field="function">
     <f:textbox default="cmd.run" />
   </f:entry>

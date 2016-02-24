@@ -1,18 +1,18 @@
 package com.waytta;
 
+import com.waytta.model.State;
 import hudson.model.BuildListener;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -22,9 +22,10 @@ import java.util.Map;
 public class HtmlDumper {
     private HtmlLogger html;
     private static final Logger log = Logger.getLogger(HtmlDumper.class);
-
-    public HtmlDumper(BuildListener listener) {
+    private boolean changes;
+    public HtmlDumper(BuildListener listener, boolean changes) {
         html = new HtmlLogger(listener);
+        this.changes = changes;
     }
     @SuppressWarnings("unchecked")
     public void dump(JSONArray array) {
@@ -47,39 +48,29 @@ public class HtmlDumper {
                 JSON json = (JSON)data.get(key);
                 if(json.isArray()) {
                     JSONArray messages = (JSONArray) json;
+                    //todo: fix div style
                    html.print("<div class='red'>").print(StringUtils.join(messages.toArray(), ", ")).print("</div>");
                 }
                  else {
                     html.print("<table class='border'>");
-                    html.print("<tr><th>state</th><th>name</th><th>result</th><th>order</th><th>changes</th></tr>");
+                    html.print("<tr><th>state</th><th>name</th><th>status</th><th>order</th><th>changes</th></tr>");
                     JSONObject minion = data.getJSONObject((String) key);
+                    LinkedList<State> states = new LinkedList<>();
                     for (Object entryObject : minion.entrySet()) {
                         Map.Entry<String, JSONObject> entry = (Map.Entry<String, JSONObject>) entryObject;
-                        JSONObject values = entry.getValue();
-                        boolean result = values.getBoolean("result");
-                        boolean warnings = values.containsKey("warnings");
-                        boolean changes = values.containsKey("changes") && !values.getJSONObject("changes").isEmpty();
-                        String color = "red";
-                        String resultName = "Fail";
-                        if (result) {
-                            if(changes)
-                              color = "green";
-                            else
-                              color = "";
-                            resultName = "OK";
-                            if (warnings) {
-                                color = "yellow";
-                                resultName = "Warn";
-                            }
-                        }
-                        html.print("<tr class='" + color + "'>");
-                        String id = entry.getKey();
-                        String[] splitted = id.split("\\|");
-                        html.print("<td>").print(splitted[0].replaceFirst("_", "") + splitted[3]).print("</td>");
-                        printCell(values, "name");
-                        html.print("<td title='").print(values.getString("comment").replaceAll("'", "&apos;")).print("'>").print(resultName).print("</td>");
-                        printCell(values, "__run_num__");
-                        printCell(values, "changes");
+                        State state = new State(entry);
+
+                        if(!changes || state.isChanged())
+                            states.add(state);
+                    }
+                    Collections.sort(states);
+                    for (State state: states) {
+                        html.print("<tr class='" + state.getStatus().getColor() + "'>");
+                        html.print("<td>").print(state.getState()).print("</td>");
+                        printCell(state.getName());
+                        html.print("<td title='").print(state.getComment().replaceAll("'", "&apos;")).print("'>").print(state.getStatus().name()).print("</td>");
+                        printCell(String.valueOf(state.getOrder()));
+                        printCell(state.getChanges());
                         html.print("</tr>");
                     }
                     html.print("</table>");
@@ -88,10 +79,7 @@ public class HtmlDumper {
         }
     }
 
-    private void printCell(JSONObject object, String key) {
-        String value = "&nbsp;";
-        if(object.has(key))
-            value = object.getString(key).replaceAll("\\\"", "\"");
+    private void printCell(String value) {
         html.print("<td>").print(value).print("</td>");
     }
 }

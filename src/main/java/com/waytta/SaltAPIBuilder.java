@@ -55,10 +55,11 @@ public class SaltAPIBuilder extends Builder {
 
     private String credentialsId;
     private String outformat;
+    private boolean changes;
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public SaltAPIBuilder(String servername, String authtype, String target, String targettype, String function, String arguments, String kwarguments, JSONObject clientInterfaces, Integer jobPollTime, String mods, String pillarkey, String pillarvalue, String credentialsId, String outformat) {
+    public SaltAPIBuilder(String servername, String authtype, String target, String targettype, String function, String arguments, String kwarguments, JSONObject clientInterfaces, Integer jobPollTime, String mods, String pillarkey, String pillarvalue, String credentialsId, String outformat, Boolean changes) {
 	this.credentialsId = credentialsId;
         this.servername = servername;
         this.authtype = authtype;
@@ -69,6 +70,10 @@ public class SaltAPIBuilder extends Builder {
             this.outformat = outformat;
         else
             this.outformat = "raw";
+        if(changes != null)
+            this.changes = changes;
+        else
+            this.changes = false;
         this.arguments = arguments;
         this.kwarguments = kwarguments;
         this.clientInterfaces = clientInterfaces;
@@ -188,6 +193,10 @@ public class SaltAPIBuilder extends Builder {
 
     public String getOutformat() {
         return  outformat;
+    }
+
+    public Boolean getChanges() {
+        return changes;
     }
 
     @Override
@@ -392,7 +401,7 @@ public class SaltAPIBuilder extends Builder {
             listener.getLogger().println(yaml.dump(outputObject));
         }
     } else if(outformat.equals("highstate")) {
-        new HtmlDumper(listener).dump(returnArray);
+        new HtmlDumper(listener, getChanges()).dump(returnArray);
         //listener.getLogger().println(returnArray.toString(2));
     } else {
 	    listener.getLogger().println("Error: Unknown output Format: x" + myOutputFormat + "x");
