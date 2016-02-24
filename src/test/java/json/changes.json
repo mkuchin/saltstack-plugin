@@ -1,0 +1,316 @@
+[{
+  "outputter": "highstate",
+  "data":   {
+    "salt-minion-1":     {
+      "cmd_|-pip-install_|-easy_install pip_|-run":       {
+        "comment": "/usr/local/bin/pip exists",
+        "name": "easy_install pip",
+        "start_time": "20:29:01.237767",
+        "result": true,
+        "duration": "173.928 ms",
+        "__run_num__": 7,
+        "changes": {}
+      },
+      "file_|-/etc/nginx/nginx.conf_|-/etc/nginx/nginx.conf_|-managed":       {
+        "comment": "File /etc/nginx/nginx.conf is in the correct state",
+        "name": "/etc/nginx/nginx.conf",
+        "start_time": "20:29:00.107664",
+        "result": true,
+        "duration": "337.973 ms",
+        "__run_num__": 1,
+        "changes": {}
+      },
+      "pkg_|-haveged_|-haveged_|-installed":       {
+        "comment": "Package haveged is already installed",
+        "name": "haveged",
+        "start_time": "20:29:07.703450",
+        "result": true,
+        "duration": "127.442 ms",
+        "__run_num__": 11,
+        "changes": {}
+      },
+      "dockerng_|-hyper/docker-test_|-hyper/docker-test_|-image_present":       {
+        "comment": "Image 'hyper/docker-test' was pulled, but there were no changes",
+        "name": "hyper/docker-test",
+        "start_time": "20:29:04.807915",
+        "result": true,
+        "duration": "2693.407 ms",
+        "__run_num__": 9,
+        "changes": {}
+      },
+      "pkg_|-python-setuptools_|-python-setuptools_|-installed":       {
+        "comment": "Package python-setuptools is already installed",
+        "name": "python-setuptools",
+        "start_time": "20:29:01.225032",
+        "result": true,
+        "duration": "11.723 ms",
+        "__run_num__": 6,
+        "changes": {}
+      },
+      "service_|-docker-service_|-docker_|-running":       {
+        "comment": "The service docker is already running",
+        "name": "docker",
+        "start_time": "20:29:08.158670",
+        "result": true,
+        "duration": "56.753 ms",
+        "__run_num__": 13,
+        "changes": {}
+      },
+      "pkgrepo_|-docker package repository_|-deb https://apt.dockerproject.org/repo ubuntu-trusty main_|-managed":       {
+        "comment": "Package repo 'deb https://apt.dockerproject.org/repo ubuntu-trusty main' already configured",
+        "name": "deb https://apt.dockerproject.org/repo ubuntu-trusty main",
+        "start_time": "20:29:00.859952",
+        "result": true,
+        "duration": "60.153 ms",
+        "__run_num__": 4,
+        "changes": {}
+      },
+      "pip_|-docker-py_|-docker-py>=1.4.0_|-installed":       {
+        "comment": "Python package docker-py>=1.4.0 was already installed\nAll packages were successfully installed",
+        "name": "docker-py>=1.4.0",
+        "start_time": "20:29:01.428382",
+        "result": true,
+        "duration": "3333.865 ms",
+        "__run_num__": 8,
+        "changes": {}
+      },
+      "dockerng_|-docker-test_|-docker-test_|-running":       {
+        "comment": "Container 'docker-test' is already configured as specified",
+        "name": "docker-test",
+        "start_time": "20:29:07.502352",
+        "result": true,
+        "duration": "29.887 ms",
+        "__run_num__": 10,
+        "changes": {}
+      },
+      "file_|-/etc/init.d/nginx_|-/etc/init.d/nginx_|-managed":       {
+        "comment": "File /etc/init.d/nginx is in the correct state",
+        "name": "/etc/init.d/nginx",
+        "start_time": "20:29:00.517560",
+        "result": true,
+        "duration": "330.122 ms",
+        "__run_num__": 3,
+        "changes": {}
+      },
+      "file_|-/etc/default/docker_|-/etc/default/docker_|-managed":       {
+        "comment": "File /etc/default/docker is in the correct state",
+        "name": "/etc/default/docker",
+        "start_time": "20:29:07.832864",
+        "result": true,
+        "duration": "324.715 ms",
+        "__run_num__": 12,
+        "changes": {}
+      },
+      "service_|-nginx_|-nginx_|-running":       {
+        "comment": "The service nginx is already running",
+        "name": "nginx",
+        "start_time": "20:29:00.447269",
+        "result": true,
+        "duration": "69.631 ms",
+        "__run_num__": 2,
+        "changes": {}
+      },
+      "pkg_|-nginx_|-nginx_|-installed":       {
+        "comment": "Package nginx is already installed",
+        "name": "nginx",
+        "start_time": "20:28:58.445427",
+        "result": true,
+        "duration": "1656.068 ms",
+        "__run_num__": 0,
+        "changes": {}
+      },
+      "pkg_|-docker-engine_|-docker-engine_|-installed":       {
+        "comment": "Package docker-engine is already installed",
+        "name": "docker-engine",
+        "start_time": "20:29:00.920608",
+        "result": true,
+        "duration": "9.048 ms",
+        "__run_num__": 5,
+        "changes": {}
+      }
+    },
+    "jenkins":     {
+      "archive_|-jenkins-data_|-/data/volumes/jenkins/_data/_|-extracted":       {
+        "comment": "/data/volumes/jenkins/_data/ already exists",
+        "name": "/data/volumes/jenkins/_data/",
+        "start_time": "02:29:00.038216",
+        "result": true,
+        "duration": 0.75,
+        "__run_num__": 12,
+        "changes": {}
+      },
+      "pkg_|-haveged_|-haveged_|-installed":       {
+        "comment": "Package haveged is already installed",
+        "name": "haveged",
+        "start_time": "02:28:55.643065",
+        "result": true,
+        "duration": 4.818,
+        "__run_num__": 2,
+        "changes": {}
+      },
+      "service_|-docker-service_|-docker_|-running":       {
+        "comment": "The service docker is already running",
+        "name": "docker",
+        "start_time": "02:28:58.241558",
+        "result": true,
+        "duration": 72.795,
+        "__run_num__": 7,
+        "changes": {}
+      },
+      "file_|-/etc/backup-credentials.txt_|-/etc/backup-credentials.txt_|-managed":       {
+        "comment": "File /etc/backup-credentials.txt is in the correct state",
+        "name": "/etc/backup-credentials.txt",
+        "start_time": "02:28:58.486810",
+        "result": true,
+        "duration": 444.831,
+        "__run_num__": 9,
+        "changes": {}
+      },
+      "cmd_|-pip-install_|-easy_install pip_|-run":       {
+        "comment": "/usr/local/bin/pip exists",
+        "name": "easy_install pip",
+        "start_time": "02:28:55.843745",
+        "result": true,
+        "duration": 162.777,
+        "__run_num__": 4,
+        "changes": {}
+      },
+      "dockerng_|-jenkins:latest_|-jenkins:latest_|-image_present":       {
+        "comment": "Image 'jenkins:latest' already present",
+        "name": "jenkins:latest",
+        "start_time": "02:29:00.049192",
+        "result": true,
+        "duration": 6.796,
+        "__run_num__": 14,
+        "changes": {}
+      },
+      "pkg_|-cifs-utils_|-cifs-utils_|-installed":       {
+        "comment": "Package cifs-utils is already installed",
+        "name": "cifs-utils",
+        "start_time": "02:28:58.318557",
+        "result": true,
+        "duration": 168.048,
+        "__run_num__": 8,
+        "changes": {}
+      },
+      "pkg_|-docker-engine_|-docker-engine_|-installed":       {
+        "comment": "Package docker-engine is already installed",
+        "name": "docker-engine",
+        "start_time": "02:28:54.468662",
+        "result": true,
+        "duration": 1172.278,
+        "__run_num__": 1,
+        "changes": {}
+      },
+      "file_|-/etc/nginx/sites-enabled/jenkins_|-/etc/nginx/sites-enabled/jenkins_|-managed":       {
+        "comment": "File /etc/nginx/sites-enabled/jenkins is in the correct state",
+        "name": "/etc/nginx/sites-enabled/jenkins",
+        "start_time": "02:28:59.810389",
+        "result": true,
+        "duration": 209.083,
+        "__run_num__": 11,
+        "changes": {}
+      },
+      "mount_|-/mnt_|-/mnt_|-mounted":       {
+        "comment": "Target was already mounted. Entry already exists in the fstab.",
+        "name": "/mnt",
+        "warnings": ["'extra_mount_invisible_keys' is an invalid keyword argument for 'mount.mounted'. If you were trying to pass additional data to be used in a template context, please populate 'context' with 'key: value' pairs. Your approach will work until Salt Carbon is out. Please update your state files."],
+        "start_time": "02:28:58.933048",
+        "result": true,
+        "duration": 876.968,
+        "__run_num__": 10,
+        "changes": {"umount": "Forced remount because options (gid=nogroup) changed"}
+      },
+      "pkg_|-python-setuptools_|-python-setuptools_|-installed":       {
+        "comment": "Package python-setuptools is already installed",
+        "name": "python-setuptools",
+        "start_time": "02:28:55.837819",
+        "result": true,
+        "duration": 5.601,
+        "__run_num__": 3,
+        "changes": {}
+      },
+      "pip_|-docker-py_|-docker-py>=1.4.0_|-installed":       {
+        "comment": "Python package docker-py>=1.4.0 was already installed\nAll packages were successfully installed",
+        "name": "docker-py>=1.4.0",
+        "start_time": "02:28:56.010882",
+        "result": true,
+        "duration": 1750.9,
+        "__run_num__": 5,
+        "changes": {}
+      },
+      "dockerng_|-jenkins_|-jenkins_|-running":       {
+        "comment": "Container 'jenkins' is already configured as specified",
+        "name": "jenkins",
+        "start_time": "02:29:00.058176",
+        "result": true,
+        "duration": 53.263,
+        "__run_num__": 15,
+        "changes": {}
+      },
+      "file_|-/etc/init.d/nginx_|-/etc/init.d/nginx_|-managed":       {
+        "comment": "File /etc/init.d/nginx is in the correct state",
+        "name": "/etc/init.d/nginx",
+        "start_time": "02:29:00.454958",
+        "result": true,
+        "duration": 215.931,
+        "__run_num__": 19,
+        "changes": {}
+      },
+      "service_|-nginx_|-nginx_|-running":       {
+        "comment": "Started Service nginx",
+        "name": "nginx",
+        "start_time": "02:29:00.335146",
+        "result": true,
+        "duration": 119.003,
+        "__run_num__": 18,
+        "changes": {"nginx": true}
+      },
+      "pkgrepo_|-docker package repository_|-deb https://apt.dockerproject.org/repo ubuntu-trusty main_|-managed":       {
+        "comment": "Package repo 'deb https://apt.dockerproject.org/repo ubuntu-trusty main' already configured",
+        "name": "deb https://apt.dockerproject.org/repo ubuntu-trusty main",
+        "start_time": "02:28:53.869729",
+        "result": true,
+        "duration": 72.173,
+        "__run_num__": 0,
+        "changes": {}
+      },
+      "dockerng_|-jenkins-volume_|-jenkins_|-volume_present":       {
+        "comment": "Volume 'jenkins' already exists.",
+        "name": "jenkins",
+        "start_time": "02:29:00.039420",
+        "result": true,
+        "duration": 9.544,
+        "__run_num__": 13,
+        "changes": {}
+      },
+      "file_|-/etc/nginx/nginx.conf_|-/etc/nginx/nginx.conf_|-managed":       {
+        "comment": "File /etc/nginx/nginx.conf is in the correct state",
+        "name": "/etc/nginx/nginx.conf",
+        "start_time": "02:29:00.114113",
+        "result": true,
+        "duration": 220.504,
+        "__run_num__": 17,
+        "changes": {}
+      },
+      "file_|-/etc/default/docker_|-/etc/default/docker_|-managed":       {
+        "comment": "File /etc/default/docker is in the correct state",
+        "name": "/etc/default/docker",
+        "start_time": "02:28:57.765467",
+        "result": true,
+        "duration": 228.658,
+        "__run_num__": 6,
+        "changes": {}
+      },
+      "pkg_|-nginx_|-nginx_|-installed":       {
+        "comment": "Package nginx is already installed",
+        "name": "nginx",
+        "start_time": "02:29:00.111603",
+        "result": true,
+        "duration": 1.654,
+        "__run_num__": 16,
+        "changes": {}
+      }
+    }
+  }
+}]

@@ -54,16 +54,21 @@ public class SaltAPIBuilder extends Builder {
     private final String pillarvalue;
 
     private String credentialsId;
+    private String outformat;
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public SaltAPIBuilder(String servername, String authtype, String target, String targettype, String function, String arguments, String kwarguments, JSONObject clientInterfaces, Integer jobPollTime, String mods, String pillarkey, String pillarvalue, String credentialsId) {
+    public SaltAPIBuilder(String servername, String authtype, String target, String targettype, String function, String arguments, String kwarguments, JSONObject clientInterfaces, Integer jobPollTime, String mods, String pillarkey, String pillarvalue, String credentialsId, String outformat) {
 	this.credentialsId = credentialsId;
         this.servername = servername;
         this.authtype = authtype;
         this.target = target;
         this.targettype = targettype;
         this.function = function;
+        if(outformat != null)
+            this.outformat = outformat;
+        else
+            this.outformat = "raw";
         this.arguments = arguments;
         this.kwarguments = kwarguments;
         this.clientInterfaces = clientInterfaces;
@@ -179,6 +184,10 @@ public class SaltAPIBuilder extends Builder {
 
     public String getCredentialsId() {
         return credentialsId;
+    }
+
+    public String getOutformat() {
+        return  outformat;
     }
 
     @Override
@@ -300,7 +309,7 @@ public class SaltAPIBuilder extends Builder {
             // Now that we know how many minions have responded, and how many we
             // are waiting on. Let's see more have finished
             if (numMinionsDone < numMinions) {
-                // Don't print annying messages unless we really are waiting for
+                // Don't print annoying messages unless we really are waiting for
                 // more minions to return
                 listener.getLogger().println(
                         "Will check status every " + String.valueOf(myJobPollTime) + " seconds...");
@@ -319,8 +328,13 @@ public class SaltAPIBuilder extends Builder {
                     returnArray = httpResponse.getJSONArray("return");
                    //listener.getLogger().println(httpResponse);
                     JSONObject returnObject = returnArray.getJSONObject(0);
-                    if(!returnObject.isEmpty())
-                        numMinionsDone =  returnObject.getJSONObject("data").names().size();
+                    if(!returnObject.isEmpty()) {
+                        if (returnObject.has("data")) {
+                            numMinionsDone = returnObject.getJSONObject("data").names().size();
+                        } else {
+                            numMinionsDone = returnObject.names().size();
+                        }
+                    }
                     listener.getLogger().println(numMinionsDone + "/" + numMinions + " finished");
                     //listener.getLogger().println(returnArray.toString(2));
                 } catch (Exception e) {
@@ -359,29 +373,33 @@ public class SaltAPIBuilder extends Builder {
 	if (!validFunctionExecution && !myOutputFormat.equals("html")) {
 	    listener.getLogger()
 		.println("ERROR occurred !\nERROR: One or more minion did not return code 0 for "
-			+ myfunction + " " + myarguments + " for " + mytarget + ":\n"
-			+ returnArray.toString(2));
-	    return false;
+			+ myfunction + " " + myarguments + " for " + mytarget + ":");
+        if(outformat.equals("raw")) {
+            listener.getLogger().println(returnArray.toString(2));
+	        return false;
+        }
 	}
 
 	// Loop is done. We have heard back from everybody. Good work team!
 	listener.getLogger().println("Response on " + myfunction + " " + myarguments + " for "
 		+ mytarget + ":");
-	if (myOutputFormat.equals("json")) {
-	    listener.getLogger().println(returnArray.toString(2));
-	} else if (myOutputFormat.equals("yaml")) {
-	    Object outputObject = returnArray.toArray();
-	    Yaml yaml = new Yaml();
-	    listener.getLogger().println(yaml.dump(outputObject));
-	} else if (myOutputFormat.equals("html")) {
+    if (outformat.equals("raw")) {
+        if (myOutputFormat.equals("json")) {
+            listener.getLogger().println(returnArray.toString(2));
+        } else if (myOutputFormat.equals("yaml")) {
+            Object outputObject = returnArray.toArray();
+            Yaml yaml = new Yaml();
+            listener.getLogger().println(yaml.dump(outputObject));
+        }
+    } else if(outformat.equals("highstate")) {
         new HtmlDumper(listener).dump(returnArray);
-        listener.getLogger().println(returnArray.toString(2));
+        //listener.getLogger().println(returnArray.toString(2));
     } else {
 	    listener.getLogger().println("Error: Unknown output Format: x" + myOutputFormat + "x");
 	    return false;
 	}
 	// No fail condition reached. Must be good.
-	return true;
+	return validFunctionExecution;
     }
 
     private JSONArray createAuthArray(StandardUsernamePasswordCredentials credential) {
@@ -579,7 +597,7 @@ public class SaltAPIBuilder extends Builder {
         }
 
 	public StandardListBoxModel doFillCredentialsIdItems(
-		@AncestorInPath Jenkins context, 
+		@AncestorInPath Jenkins context,
 		@QueryParameter final String servername) {
 	    StandardListBoxModel result = new StandardListBoxModel();
 	    result.withEmptySelection();

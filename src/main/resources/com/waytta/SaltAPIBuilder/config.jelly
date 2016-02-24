@@ -47,6 +47,14 @@
     </select>
   </f:entry>
 
+  <f:entry title="Output Formatting" field="outformat">
+    <select name="outformat">
+      <f:option value="raw" selected="${instance.outformat == 'raw'}">raw</f:option>
+      <f:option value="nested" selected="${instance.outformat == 'nested'}">nested</f:option>
+      <f:option value="highstate" selected="${instance.outformat == 'highstate'}">highstate</f:option>
+    </select>
+  </f:entry>
+
   <f:entry title="Function" field="function">
     <f:textbox default="cmd.run" />
   </f:entry>

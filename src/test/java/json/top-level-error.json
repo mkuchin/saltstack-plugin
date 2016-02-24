@@ -1,0 +1,8 @@
+[{
+  "outputter": "highstate",
+  "data":   {
+    "salt-minion-1": ["A recursive requisite was found, SLS \"nginx\" ID \"nginx\" ID \"test nginx config\""],
+    "jenkins": ["A recursive requisite was found, SLS \"nginx\" ID \"test nginx config\" ID \"nginx\""]
+  }
+}]
+
