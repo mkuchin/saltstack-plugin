@@ -1,6 +1,7 @@
 package com.waytta;
 
 import com.waytta.model.State;
+import com.waytta.model.Status;
 import hudson.model.BuildListener;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -52,28 +53,47 @@ public class HtmlDumper {
                    html.print("<div class='red'>").print(StringUtils.join(messages.toArray(), ", ")).print("</div>");
                 }
                  else {
-                    html.print("<table class='border'>");
-                    html.print("<tr><th>state</th><th>name</th><th>status</th><th>order</th><th>changes</th></tr>");
                     JSONObject minion = data.getJSONObject((String) key);
                     LinkedList<State> states = new LinkedList<>();
+                    int total = minion.entrySet().size();
+                    int success = 0;
+                    int failed = 0;
                     for (Object entryObject : minion.entrySet()) {
                         Map.Entry<String, JSONObject> entry = (Map.Entry<String, JSONObject>) entryObject;
                         State state = new State(entry);
-
+                        if(state.getStatus() == Status.FAIL)
+                            failed++;
+                        else
+                            success++;
                         if(!changes || state.isChanged())
                             states.add(state);
                     }
                     Collections.sort(states);
-                    for (State state: states) {
-                        html.print("<tr class='" + state.getStatus().getColor() + "'>");
-                        html.print("<td>").print(state.getState()).print("</td>");
-                        printCell(state.getName());
-                        html.print("<td title='").print(state.getComment().replaceAll("'", "&apos;")).print("'>").print(state.getStatus().name()).print("</td>");
-                        printCell(String.valueOf(state.getOrder()));
-                        printCell(state.getChanges());
-                        html.print("</tr>");
+                    if(states.size() > 0) {
+                        html.print("<table class='border'>");
+                        html.print("<tr><th>state</th><th>name</th><th>status</th><th>order</th><th>changes</th></tr>");
+
+                        for (State state : states) {
+                            html.print("<tr class='" + state.getStatus().getColor() + "'>");
+                            html.print("<td>").print(state.getState()).print("</td>");
+                            printCell(state.getName());
+                            html.print("<td title='").print(state.getComment().replaceAll("'", "&apos;")).print("'>").print(state.getStatus().name()).print("</td>");
+                            printCell(String.valueOf(state.getOrder()));
+                            printCell(state.getChanges());
+                            html.print("</tr>");
+                        }
+                        html.print("</table>");
                     }
-                    html.print("</table>");
+                    html.print("Succeeded: " + success + "\n");
+                    html.print("Failed: " + failed + "\n");
+                    html.print("-------------\n");
+                    html.print("Total states run: " + total + "\n");
+                    /*
+                    Succeeded: 20
+                    Failed:     1
+                    -------------
+                    Total states run:     21
+                     */
                 }
             }
         }

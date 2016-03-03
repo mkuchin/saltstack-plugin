@@ -37,7 +37,7 @@ public class State implements Comparable<State> {
         String id = entry.getKey();
         String[] splitted = id.split("\\|");
         this.state = splitted[0].replaceFirst("_", "") + splitted[3];
-        this.name = values.getString("name");
+        this.name = values.has("name") ? values.getString("name") : "";
         this.order = values.getInt("__run_num__");
         this.changes = values.getString("changes");
         this.comment = values.getString("comment");
