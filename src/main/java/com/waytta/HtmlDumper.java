@@ -37,7 +37,7 @@ public class HtmlDumper {
         if (highState.has("outputter") && highState.getString("outputter").equals("highstate"))
             data = highState.getJSONObject("data");
         else
-            data = highState
+            data = highState;
         String style = "";
         try {
             InputStream styleStream = this.getClass().getClassLoader().getResourceAsStream("saltstack/css/style.css");
